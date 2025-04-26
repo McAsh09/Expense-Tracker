@@ -14,8 +14,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { motion } from "framer-motion";
 
 function ExpenseItem({ expense, onDelete, onEdit }) {
-  const { id, title, amount, date, category } = expense;
-
+  
   const [isEditing, setIsEditing] = useState(false);
   const [editedExpense, setEditedExpense] = useState({
     title: expense.title,
