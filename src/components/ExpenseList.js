@@ -12,10 +12,9 @@ function ExpenseList({ expenses, onDelete, onEdit }) {
           textAlign: "center",
           color: "#388e3c",
           fontSize: "1.1rem",
-          fontWeight: "bold",
           fontFamily: '"Josefin Sans", sans-serif',
           fontOpticalSizing: 'auto',
-          fontWeight: 400, // or whatever weight you want (100–700)
+          fontWeight: 400,
           fontStyle: 'normal',
         }}
       >
