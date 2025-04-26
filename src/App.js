@@ -10,11 +10,12 @@ import {
 } from "./utils/localStorage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, GlobalStyles } from "@mui/material";
+import './App.css'
 
 function App() {
   const [expenses, setExpenses] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [activeTab, setActiveTab] = useState("expenses"); // For switching between tabs
+  const [activeTab, setActiveTab] = useState("expenses");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("darkMode");
@@ -91,17 +92,11 @@ function App() {
             minHeight: "100vh",
             backgroundColor: theme.palette.background.default,
           },
-          "@keyframes gradientMove": {
-            "0%": { backgroundPosition: "0% 50%" },
-            "50%": { backgroundPosition: "100% 50%" },
-            "100%": { backgroundPosition: "0% 50%" },
-          },
         }}
       />
 
       {/* Whole Layout */}
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
-        {/* Left Sidebar */}
         <Navbar
           isDarkMode={isDarkMode}
           toggleDarkMode={() => setIsDarkMode(!isDarkMode)}
@@ -109,22 +104,18 @@ function App() {
           setActiveTab={setActiveTab}
         />
 
-        {/* Right Main Content */}
         <Box
           sx={{
             flexGrow: 1,
-            marginLeft: "250px", // Leave space for sidebar
-            background:
-              theme.palette.mode === "dark"
-                ? "linear-gradient(135deg, #0f2027, #203a43, #2c5364)"
-                : "linear-gradient(135deg, #f5f7fa, #c3cfe2)",
+            marginLeft: "250px", 
+            padding: "40px",
+            background: theme.palette.mode === "dark" ? "linear-gradient(135deg, #0f2027, #203a43, #2c5364)" : "linear-gradient(135deg, #f5f7fa, #c3cfe2)",
             backgroundSize: "400% 400%",
             animation: "gradientMove 15s ease infinite",
             transition: "background 1s ease, color 0.5s ease",
-            padding: "40px",
           }}
         >
-          <Container maxWidth="md">
+          <Container maxWidth="lg">
             {activeTab === "expenses" && (
               <>
                 <Box mb={4}>
@@ -145,14 +136,6 @@ function App() {
                   />
                 </Box>
               </>
-            )}
-
-            {activeTab === "reports" && (
-              <Box mb={4}>
-                <Typography variant="h3" align="center" gutterBottom>
-                  Reports 📊 (Coming soon!)
-                </Typography>
-              </Box>
             )}
 
             {activeTab === "analytics" && (
