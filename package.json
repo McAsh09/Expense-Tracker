@@ -2,7 +2,7 @@
   "name": "expense-tracker",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://McAsh09.github.io/Expense-Tracker",
+  "homepage": "https://mcash09.github.io/Expense-Tracker/",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
