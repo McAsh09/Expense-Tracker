@@ -84,7 +84,6 @@ function App() {
               sx={{
                 mt: 5,
                 textAlign: "center",
-                fontWeight: "bold",
                 background: "linear-gradient(90deg, #FFD700, #FFA500, #FFB700)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -93,7 +92,7 @@ function App() {
                 textShadow: "0px 2px 4px rgba(0,0,0,0.2)",
                 fontFamily: '"Josefin Sans", sans-serif',
                 fontOpticalSizing: 'auto',
-                fontWeight: 400, // or whatever weight you want (100–700)
+                fontWeight: 400,
                 fontStyle: 'normal',
               }}
             >
