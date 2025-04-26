@@ -8,13 +8,13 @@ import {
   TextField,
   Button,
   Box,
+  useTheme,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { motion } from "framer-motion";
 
-function ExpenseItem({ expense, onDelete, onEdit }) {
-  
+function ExpenseItem({ expense, onDelete, onEdit, index }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedExpense, setEditedExpense] = useState({
     title: expense.title,
@@ -22,6 +22,17 @@ function ExpenseItem({ expense, onDelete, onEdit }) {
     date: expense.date,
     category: expense.category,
   });
+
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  // Define some premium colors
+  const lightColors = ["#ffffff", "#f0f4ff", "#f7f9fc"];
+  const darkColors = ["#1f2a40", "#2c3e50", "#34495e"];
+
+  const cardColor = isDark
+    ? darkColors[index % darkColors.length]
+    : lightColors[index % lightColors.length];
 
   const handleSave = () => {
     onEdit(expense.id, editedExpense);
@@ -39,17 +50,19 @@ function ExpenseItem({ expense, onDelete, onEdit }) {
       <Card
         variant="outlined"
         sx={{
-          bgcolor: "#ffffff",
+          bgcolor: cardColor,
           boxShadow: 6,
-          borderRadius: 2,
+          borderRadius: 3,
           transition: "0.3s ease-in-out",
           ":hover": { boxShadow: 12 },
           border: "1px solid #e0e0e0",
+          width: 250,
         }}
       >
         <CardContent>
           {isEditing ? (
             <Stack spacing={2}>
+              {/* Textfields inside editing mode */}
               <TextField
                 label="Title"
                 value={editedExpense.title}
@@ -75,7 +88,9 @@ function ExpenseItem({ expense, onDelete, onEdit }) {
               />
               <TextField
                 label="Date"
-                value={editedExpense.date ? editedExpense.date.slice(0, 10) : ""}
+                value={
+                  editedExpense.date ? editedExpense.date.slice(0, 10) : ""
+                }
                 type="date"
                 onChange={(e) =>
                   setEditedExpense({ ...editedExpense, date: e.target.value })
@@ -106,11 +121,7 @@ function ExpenseItem({ expense, onDelete, onEdit }) {
                   variant="contained"
                   color="primary"
                   onClick={handleSave}
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "#1976d2",
-                    },
-                  }}
+                  sx={{ borderRadius: 2 }}
                 >
                   Save
                 </Button>
@@ -118,11 +129,7 @@ function ExpenseItem({ expense, onDelete, onEdit }) {
                   variant="outlined"
                   color="secondary"
                   onClick={() => setIsEditing(false)}
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "#f5f5f5",
-                    },
-                  }}
+                  sx={{ borderRadius: 2 }}
                 >
                   Cancel
                 </Button>
@@ -138,45 +145,22 @@ function ExpenseItem({ expense, onDelete, onEdit }) {
                 <Typography variant="h6" color="primary" fontWeight="bold">
                   ₹{Number(expense.amount).toFixed(2)}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {expense.title}
-                </Typography>
-                <Typography variant="caption" color="text.disabled">
-                  {expense.date ? new Date(expense.date).toLocaleDateString() : new Date().toLocaleDateString() }
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{ mt: 1, fontWeight: "bold", color: "#1976d2" }}
-                >
-                  {expense.category}
+                <Typography color="textSecondary">{expense.title}</Typography>
+                <Typography color="textSecondary">
+                  {expense.date
+                    ? new Date(expense.date).toLocaleDateString()
+                    : new Date().toLocaleDateString()}
                 </Typography>
               </Box>
 
-              {/* Action Buttons */}
-              <Stack direction="row" spacing={1}>
-                <IconButton
-                  color="primary"
-                  onClick={() => setIsEditing(true)}
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "#e3f2fd",
-                    },
-                  }}
-                >
+              <Box>
+                <IconButton onClick={() => setIsEditing(true)}>
                   <EditIcon />
                 </IconButton>
-                <IconButton
-                  color="error"
-                  onClick={() => onDelete(expense.id)}
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "#ffcdd2",
-                    },
-                  }}
-                >
+                <IconButton onClick={() => onDelete(expense.id)}>
                   <DeleteIcon />
                 </IconButton>
-              </Stack>
+              </Box>
             </Stack>
           )}
         </CardContent>
