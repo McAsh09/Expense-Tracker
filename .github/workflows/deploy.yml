@@ -1,31 +1,31 @@
+name: Deploy React App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main   # whenever you push to main branch
+
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # Checkout code
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # Set up Node.js (if necessary)
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'  # Update with the version you use
+          node-version: '20'  # or your preferred Node version
 
-      # Build your app (if necessary)
-      - name: Build the app
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
         run: npm run build
 
-      # Deploy to gh-pages branch
-      - name: Deploy to gh-pages
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/McAsh09/Expense-Tracker.git
-          git fetch origin main
-          git checkout -b gh-pages origin/main  # Create gh-pages branch from the main branch
-          git add -A
-          git commit -m "Deploy to gh-pages"
-          git push origin gh-pages --force
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./build
