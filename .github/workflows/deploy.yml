@@ -16,17 +16,14 @@ jobs:
       - name: Build the app
         run: npm run build
 
-      # Ensure you're on the main branch
-      - name: Checkout main branch
-        run: git checkout main
-
       # Deploy to gh-pages branch
       - name: Deploy to gh-pages
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/McAsh09/Expense-Tracker.git
-          git checkout -b gh-pages
+          git fetch origin main
+          git checkout -b gh-pages origin/main  # Create gh-pages branch from the main branch
           git add -A
           git commit -m "Deploy to gh-pages"
           git push origin gh-pages --force
